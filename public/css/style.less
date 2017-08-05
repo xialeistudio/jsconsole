@@ -7,7 +7,53 @@ body {
   color: white;
 }
 
-.site-documents {
-  width: 1000px;
-  margin: 72px auto;
+.container {
+  margin: 72px 24px;
+}
+
+.site-debug {
+  .server-status {
+    color: gray;
+    &.active {
+      color: #0078e7;
+    }
+  }
+  .logs {
+    max-height: 600px;
+    overflow-y: auto;
+    &.has-message {
+      padding: 4px;
+      background-color: #f9f9f9;
+      border: 1px solid #f1f1f1;
+    }
+    .log {
+      line-height: 1.8;
+      .level {
+        display: inline-block;
+        font-size: 12px;
+        border-radius: 2px;
+        color: white;
+        min-width: 54px;
+        text-align: center;
+        background-color: #999;
+        max-height: 16px;
+        line-height: 16px;
+      }
+      .trace {
+        background-color: #999;
+      }
+      .debug {
+        background-color: #5eb95e;
+      }
+      .info {
+        background-color: #0e90d2;
+      }
+      .warn {
+        background-color: #F37B1D;
+      }
+      .error {
+        background-color: #dd514c;
+      }
+    }
+  }
 }

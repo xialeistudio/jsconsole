@@ -6,7 +6,50 @@ body {
 .pure-menu-selected .pure-menu-link:visited {
   color: white;
 }
-.site-documents {
-  width: 1000px;
-  margin: 72px auto;
+.container {
+  margin: 72px 24px;
+}
+.site-debug .server-status {
+  color: gray;
+}
+.site-debug .server-status.active {
+  color: #0078e7;
+}
+.site-debug .logs {
+  max-height: 600px;
+  overflow-y: auto;
+}
+.site-debug .logs.has-message {
+  padding: 4px;
+  background-color: #f9f9f9;
+  border: 1px solid #f1f1f1;
+}
+.site-debug .logs .log {
+  line-height: 1.8;
+}
+.site-debug .logs .log .level {
+  display: inline-block;
+  font-size: 12px;
+  border-radius: 2px;
+  color: white;
+  min-width: 54px;
+  text-align: center;
+  background-color: #999;
+  max-height: 16px;
+  line-height: 16px;
+}
+.site-debug .logs .log .trace {
+  background-color: #999;
+}
+.site-debug .logs .log .debug {
+  background-color: #5eb95e;
+}
+.site-debug .logs .log .info {
+  background-color: #0e90d2;
+}
+.site-debug .logs .log .warn {
+  background-color: #F37B1D;
+}
+.site-debug .logs .log .error {
+  background-color: #dd514c;
 }

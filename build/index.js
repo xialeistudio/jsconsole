@@ -39,13 +39,18 @@ var Koa = require("koa");
 var ejs = require("koa-ejs");
 var KoaRouter = require("koa-router");
 var serve = require("koa-static");
+var qs = require("querystring");
+var io = require("socket.io");
+var url = require("url");
 var Server = (function () {
     function Server() {
+        var _this = this;
         this.port = parseInt(process.env.PORT, 10) || 8080;
         this.app = new Koa();
-        this.route();
         this.config();
-        this.app.listen(this.port);
+        this.route();
+        this.io = io(this.app.listen(this.port));
+        this.io.on('connection', function (socket) { return _this.handleSocket(socket); });
     }
     Server.bootstrap = function () {
         return new Server();
@@ -54,16 +59,25 @@ var Server = (function () {
      * 中间件定义
      */
     Server.prototype.config = function () {
+        var _this = this;
+        this.app.use(function (ctx, next) { return __awaiter(_this, void 0, void 0, function () {
+            return __generator(this, function (_a) {
+                switch (_a.label) {
+                    case 0: return [4 /*yield*/, next()];
+                    case 1:
+                        _a.sent();
+                        return [2 /*return*/];
+                }
+            });
+        }); });
         this.app.use(serve(__dirname + '/../public'));
         ejs(this.app, {
             root: __dirname + '/../views',
             layout: 'layout',
-            viewExt: 'ejs',
+            viewExt: 'html',
             cache: false,
             debug: false,
         });
-        this.app.use(this.router.routes());
-        this.app.use(this.router.allowedMethods());
     };
     /**
      * 路由定义
@@ -91,6 +105,47 @@ var Server = (function () {
                 }
             });
         }); });
+        this.router.get('/debug', function (ctx) { return __awaiter(_this, void 0, void 0, function () {
+            return __generator(this, function (_a) {
+                switch (_a.label) {
+                    case 0: return [4 /*yield*/, ctx.render('debug')];
+                    case 1:
+                        _a.sent();
+                        return [2 /*return*/];
+                }
+            });
+        }); });
+        this.router.get('/test', function (ctx) { return __awaiter(_this, void 0, void 0, function () {
+            return __generator(this, function (_a) {
+                switch (_a.label) {
+                    case 0: return [4 /*yield*/, ctx.render('test')];
+                    case 1:
+                        _a.sent();
+                        return [2 /*return*/];
+                }
+            });
+        }); });
+        this.app.use(this.router.routes());
+        this.app.use(this.router.allowedMethods());
+    };
+    /**
+     * socket
+     * @param socket
+     */
+    Server.prototype.handleSocket = function (socket) {
+        var _this = this;
+        var q = qs.parse(url.parse(socket.handshake.url).query);
+        if (!q.token) {
+            socket.disconnect(true);
+            return;
+        }
+        socket.join(q.token);
+        socket.on('log', function (message, level) {
+            console.log(message, level);
+            _this.io.to(q.token).emit('log', "[" + (new Date()).toLocaleString() + "] " + message, level);
+        });
+        var welcome = socket.handshake.headers['user-agent'] + " connected";
+        this.io.to(q.token).emit('log', "[" + (new Date()).toLocaleString() + "] " + welcome, 'trace');
     };
     return Server;
 }());

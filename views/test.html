@@ -1,0 +1,23 @@
+<div class="home-menu pure-menu pure-menu-horizontal pure-menu-fixed">
+    <a class="pure-menu-heading" href="/">jsconsole</a>
+    <ul class="pure-menu-list">
+        <li class="pure-menu-item"><a href="/" class="pure-menu-link">首页</a></li>
+        <li class="pure-menu-item"><a href="/documents" class="pure-menu-link">文档</a></li>
+        <li class="pure-menu-item"><a href="/debug" class="pure-menu-link">控制台</a></li>
+    </ul>
+</div>
+<div class="site-test container">
+    <h2>测试页</h2>
+    <p>调试标签 <strong>test</strong> 的日志已经输出，请前往控制台查看</p>
+</div>
+<script src="https://cdn.bootcss.com/socket.io/2.0.3/socket.io.js"></script>
+<script src="https://jsconsole.org/js/console.js"></script>
+<script>
+  console.init('test');
+  console.log('自定义test级别输出', 'test');
+  console.trace('输出trace级别');
+  console.debug('输出debug级别');
+  console.info('输出info级别');
+  console.warn('输出warn级别');
+  console.error('输出error级别');
+</script>

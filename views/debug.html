@@ -1,0 +1,67 @@
+<div class="home-menu pure-menu pure-menu-horizontal pure-menu-fixed">
+    <a class="pure-menu-heading" href="/">jsconsole</a>
+    <ul class="pure-menu-list">
+        <li class="pure-menu-item"><a href="/" class="pure-menu-link">首页</a></li>
+        <li class="pure-menu-item"><a href="/documents" class="pure-menu-link">文档</a></li>
+        <li class="pure-menu-item pure-menu-selected"><a href="/debug" class="pure-menu-link">控制台</a></li>
+    </ul>
+</div>
+<div class="site-debug container" ng-app="app" ng-controller="MainCtrl">
+    <form ng-submit="connect($event)" action="" class="pure-form">
+        <fieldset>
+            <legend>调试配置</legend>
+            <input type="text" placeholder="您的token" ng-model="token">
+            <button type="submit" class="pure-button" ng-class="{'pure-button-primary':connected}" ng-bind="connected?'已连接':'连接'"></button>
+            <button type="button" class="pure-button" ng-click="clear()">清空日志</button>
+        </fieldset>
+    </form>
+    <div class="logs" ng-class="{'has-message':messages.length}">
+        <div class="log" ng-repeat="message in messages">
+            <span class="level" ng-class="message.level" ng-bind="message.level"></span>
+            <span class="message" ng-bind="message.message"></span>
+        </div>
+    </div>
+</div>
+<script src="https://cdn.bootcss.com/socket.io/2.0.3/socket.io.js"></script>
+<script src="https://cdn.bootcss.com/angular.js/1.4.14/angular.js"></script>
+<script>
+  var app = angular.module('app', []);
+  app.controller('MainCtrl', function($scope) {
+    var socket = null;
+    $scope.token = '';
+    $scope.connected = false;
+    $scope.messages = [];
+    $scope.clear = function() {
+      $scope.messages.length = 0;
+    };
+    $scope.connect = function(e) {
+      e.preventDefault();
+      if (!$scope.token) {
+        alert('请输入token');
+        return;
+      }
+      if ($scope.connected) {
+        socket.disconnect();
+      }
+      socket = io('https://jsconsole.org?token=' + $scope.token);
+      socket.on('connect', function() {
+        $scope.connected = true;
+        setTimeout(function() {
+          $scope.$apply();
+        });
+      });
+      socket.on('disconnect', function() {
+        $scope.connected = false;
+        setTimeout(function() {
+          $scope.$apply();
+        });
+      });
+      socket.on('log', function(message, level) {
+        $scope.messages.unshift({ message: message, level: level });
+        setTimeout(function() {
+          $scope.$apply();
+        });
+      });
+    };
+  });
+</script>

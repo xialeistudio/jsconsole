@@ -1,5 +1,5 @@
 (function(window) {
-  window.console = {};
+  window.console = window.console || {};
   var messages = [], isConnected = false;
   var socket = null;
   /**
@@ -7,7 +7,7 @@
    * @param {String} token
    */
   window.console.init = function(token) {
-    socket = io('http://localhost:8080?token=' + token);
+    socket = io('https://jsconsole.org?token=' + token);
     socket.on('connect', function() {
       isConnected = true;
       window.console.handleConnected();
@@ -20,10 +20,10 @@
    * 连接成功
    */
   window.console.handleConnected = function() {
-    do {
-      var message = messages.splice(0, 1);
-      socket.emit('log', message);
-    } while (messages.length > 0);
+    while (messages.length > 0) {
+      var message = messages.splice(0, 1)[0];
+      socket.emit('log', message.message, message.level);
+    }
   };
 
   /**
@@ -37,7 +37,7 @@
       messages.push(item);
       return;
     }
-    socket.emit('log', item);
+    socket.emit('log', item.message, item.level);
   };
   // 处理其他的
   var levels = ['trace', 'debug', 'info', 'warn', 'error'];
