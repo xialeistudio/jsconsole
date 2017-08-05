@@ -46,10 +46,11 @@ var Server = (function () {
     function Server() {
         var _this = this;
         this.port = parseInt(process.env.PORT, 10) || 8080;
+        this.host = process.env.HOST || 'localhost';
         this.app = new Koa();
         this.config();
         this.route();
-        this.io = io(this.app.listen(this.port));
+        this.io = io(this.app.listen(this.port, this.host));
         this.io.on('connection', function (socket) { return _this.handleSocket(socket); });
     }
     Server.bootstrap = function () {
@@ -141,7 +142,6 @@ var Server = (function () {
         }
         socket.join(q.token);
         socket.on('log', function (message, level) {
-            console.log(message, level);
             _this.io.to(q.token).emit('log', "[" + (new Date()).toLocaleString() + "] " + message, level);
         });
         var welcome = socket.handshake.headers['user-agent'] + " connected";

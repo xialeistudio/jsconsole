@@ -15,12 +15,13 @@ class Server {
     private io: SocketIO.Server;
     private router: KoaRouter;
     private port: number = parseInt(process.env.PORT!, 10) || 8080;
+    private host: string = process.env.HOST || 'localhost';
 
     constructor() {
         this.app = new Koa();
         this.config();
         this.route();
-        this.io = io(this.app.listen(this.port));
+        this.io = io(this.app.listen(this.port, this.host));
         this.io.on('connection', (socket) => this.handleSocket(socket));
     }
 
@@ -75,7 +76,6 @@ class Server {
         }
         socket.join(q.token);
         socket.on('log', (message: any, level: string) => {
-            console.log(message, level);
             this.io.to(q.token).emit('log', `[${(new Date()).toLocaleString()}] ${message}`, level);
         });
         const welcome = `${socket.handshake.headers['user-agent']} connected`;
