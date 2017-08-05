@@ -1,0 +1,31 @@
+{
+  "name": "jsconsole",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "build": "tsc -w",
+    "start": "node build/index.js"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "@types/koa": "^2.0.39",
+    "@types/koa-router": "^7.0.22",
+    "@types/koa-static": "^3.0.0",
+    "@types/koa-views": "^2.0.1",
+    "@types/node": "^8.0.19",
+    "@types/socket.io": "^1.4.29",
+    "tslint": "^5.5.0",
+    "typescript": "^2.4.2"
+  },
+  "dependencies": {
+    "koa": "^2.3.0",
+    "koa-ejs": "^4.1.0",
+    "koa-router": "^7.2.1",
+    "koa-static": "^4.0.1",
+    "koa-views": "^6.0.2",
+    "socket.io": "^2.0.3"
+  }
+}
