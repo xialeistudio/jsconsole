@@ -81,6 +81,16 @@ var Server = (function () {
                 }
             });
         }); });
+        this.router.get('/documents', function (ctx) { return __awaiter(_this, void 0, void 0, function () {
+            return __generator(this, function (_a) {
+                switch (_a.label) {
+                    case 0: return [4 /*yield*/, ctx.render('documents')];
+                    case 1:
+                        _a.sent();
+                        return [2 /*return*/];
+                }
+            });
+        }); });
     };
     return Server;
 }());

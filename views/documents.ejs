@@ -1,0 +1,35 @@
+<div class="home-menu pure-menu pure-menu-horizontal pure-menu-fixed">
+    <a class="pure-menu-heading" href="">jsconsole</a>
+
+    <ul class="pure-menu-list">
+        <li class="pure-menu-item"><a href="/" class="pure-menu-link">首页</a></li>
+        <li class="pure-menu-item pure-menu-selected"><a href="/documents" class="pure-menu-link">文档</a></li>
+    </ul>
+</div>
+
+<div class="site-documents">
+    <p>提示：jsconsole使用socket.io开发，为了核心程序文件大小，您需要手动引入socket.io库。</p>
+    <h2>如何接入？</h2>
+    <ol>
+        <li>引入socket.io.js <a href="https://cdn.bootcss.com/socket.io/2.0.3/socket.io.js" target="_blank">https://cdn.bootcss.com/socket.io/2.0.3/socket.io.js</a></li>
+        <li>引入程序库 <a href="https://jsconsole.org/js/console.js" target="_blank">https://jsconsole.org/js/console.js</a></li>
+        <li>打开<a href="https://jsconsole.org/debug" target="_blank">控制台</a>并设置调试token，请保证唯一性，否则别人可能会看到您的调试信息！</li>
+        <li>
+            <span>初始化您的应用</span>
+            <pre>console.init('token');</pre>
+        </li>
+        <li>
+            <span>开始调试(console.log为保留方法，如果您想使用，请注意调用方式)</span>
+            <pre>
+console.log('自定义test级别输出','test');
+console.trace('输出trace级别');
+console.debug('输出debug级别');
+console.info('输出info级别');
+console.warn('输出warn级别');
+console.error('输出error级别');</pre>
+        </li>
+        <li>您在控制台就可以看到应用的调试信息了。</li>
+    </ol>
+    <h2>解决了什么问题？</h2>
+    <p>移动端真机开发H5的时候，console.log调用虽然成功，但是没地方可以看到输出结果，本应用通过socket.io可以将您移动端设备的调试信息输出在网页上，方便开发。</p>
+</div>

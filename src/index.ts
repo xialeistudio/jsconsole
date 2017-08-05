@@ -44,6 +44,9 @@ class Server {
         this.router.get('/', async (ctx) => {
             await ctx.render('index');
         });
+        this.router.get('/documents', async (ctx) => {
+            await ctx.render('documents');
+        });
     }
 }
 

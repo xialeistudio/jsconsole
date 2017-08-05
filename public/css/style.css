@@ -6,3 +6,7 @@ body {
 .pure-menu-selected .pure-menu-link:visited {
   color: white;
 }
+.site-documents {
+  width: 1000px;
+  margin: 72px auto;
+}
