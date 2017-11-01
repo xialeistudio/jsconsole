@@ -1,13 +1,10 @@
 version: "2"
 services:
   jsconsole:
-    image: "node:8"
-    user: "node"
-    working_dir: /home/node/app
-    environment:
-      - NODE_ENV=production
+    build: .
     volumes:
-      - ./:/home/node/app
+      - .:/usr/src/app
+      - /usr/src/app/node_modules
     ports:
       - "127.0.0.1:8081:80"
     command: "npm start"
