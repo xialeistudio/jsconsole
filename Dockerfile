@@ -3,4 +3,4 @@ WORKDIR /usr/src/app
 ADD . /usr/src/app
 RUN npm install --registry=https://registry.npm.taobao.org
 USER node
-EXPOSE 80
+EXPOSE 8080

@@ -14,7 +14,7 @@ class Server {
   private app: Koa;
   private io: SocketIO.Server;
   private router: KoaRouter;
-  private port: number = 80;
+  private port: number = 8080;
   private host: string = '0.0.0.0';
 
   constructor() {
