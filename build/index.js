@@ -9,8 +9,8 @@ const io = require("socket.io");
 const url = require("url");
 class Server {
     constructor() {
-        this.port = parseInt(process.env.PORT, 10) || 8080;
-        this.host = process.env.HOST || 'localhost';
+        this.port = 80;
+        this.host = '0.0.0.0';
         this.app = new Koa();
         this.config();
         this.route();
