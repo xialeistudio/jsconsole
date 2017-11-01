@@ -1,6 +1,6 @@
 FROM daocloud.io/library/ubuntu
 MAINTAINER xialeistudio<xialeistudio@gmail.com>
-
+ENV HOST 0.0.0.0
 ENV PATH $PATH:/opt/node/bin
 # prepare
 ADD sources.list /etc/apt/sources.list
