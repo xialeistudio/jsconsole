@@ -14,14 +14,14 @@ class Server {
   private app: Koa;
   private io: SocketIO.Server;
   private router: KoaRouter;
-  private port: number = 8080;
-  private host: string = '0.0.0.0';
+  private port: number = Number(process.env.PORT || 8080);
+  private host: string = process.env.HOST || '0.0.0.0';
 
   constructor() {
     this.app = new Koa();
     this.config();
     this.route();
-    this.io = io(this.app.listen(this.port, this.host));
+    this.io = io(this.app.listen(this.port, this.host, () => console.log('listen on %s:%d', this.host, this.port)));
     this.io.on('connection', (socket) => this.handleSocket(socket));
   }
 
@@ -29,9 +29,6 @@ class Server {
    * 中间件定义
    */
   private config() {
-    this.app.use(async (ctx, next) => {
-      await next();
-    });
     this.app.use(serve(__dirname + '/../public'));
     ejs(this.app, {
       root: __dirname + '/../views',
@@ -69,7 +66,7 @@ class Server {
    * @param socket
    */
   private handleSocket(socket: SocketIO.Socket) {
-    const q = qs.parse(url.parse(socket.handshake.url).query);
+    const q: any = qs.parse(url.parse(socket.handshake.url).query);
     if (!q.token) {
       socket.disconnect(true);
       return;

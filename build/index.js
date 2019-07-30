@@ -9,12 +9,12 @@ const io = require("socket.io");
 const url = require("url");
 class Server {
     constructor() {
-        this.port = 8080;
-        this.host = '0.0.0.0';
+        this.port = Number(process.env.PORT || 8080);
+        this.host = process.env.HOST || '0.0.0.0';
         this.app = new Koa();
         this.config();
         this.route();
-        this.io = io(this.app.listen(this.port, this.host));
+        this.io = io(this.app.listen(this.port, this.host, () => console.log('listen on %s:%d', this.host, this.port)));
         this.io.on('connection', (socket) => this.handleSocket(socket));
     }
     static bootstrap() {
@@ -24,9 +24,6 @@ class Server {
      * 中间件定义
      */
     config() {
-        this.app.use(async (ctx, next) => {
-            await next();
-        });
         this.app.use(serve(__dirname + '/../public'));
         ejs(this.app, {
             root: __dirname + '/../views',
